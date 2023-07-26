@@ -1,22 +1,44 @@
-// create new browser window
-const { BrowserWindow } = require('electron').remote
-const path = require('path')
-const url = require('url')
-const ipc = require('electron').ipcRenderer
+// create web server
+// create a route for comments
+// create a route for comments/new
+// create a route for comments/:id
+// create a route for comments/:id/edit
+// create a route for comments/:id/delete
 
-const submitBtn = document.getElementById('submitBtn')
-const commentList = document.getElementById('commentList')
-const commentField = document.getElementById('commentField')
+var express = require('express');
+var router = express.Router();
+var knex = require('../db/knex');
 
-submitBtn.addEventListener('click', function (event) {
-  const comment = commentField.value
-  commentField.value = ''
-  ipc.send('addComment', comment)
-})
+// create web server
+router.get('/', function(req, res, next) {
+  res.send('respond with a resource');
+});
 
-ipc.on('newComment', function (event, arg) {
-  const li = document.createElement('li')
-  const text = document.createTextNode(arg)
-  li.appendChild(text)
-  commentList.appendChild(li)
-})
+// create a route for comments
+router.get('/comments', function(req, res, next) {
+  knex('comments').then(function(data) {
+    res.json(data);
+  });
+});
+
+// create a route for comments/new
+router.get('/comments/new', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+// create a route for comments/:id
+router.get('/comments/:id', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+// create a route for comments/:id/edit
+router.get('/comments/:id/edit', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+// create a route for comments/:id/delete
+router.get('/comments/:id/delete', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+module.exports = router;
